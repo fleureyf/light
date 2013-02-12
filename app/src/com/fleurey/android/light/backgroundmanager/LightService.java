@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -17,6 +18,12 @@ public class LightService extends Service {
 	private static final int SERVICE_ID = 79290;
 	
 	private FlashManager mFlashManager;
+	
+	private final Binder simpleBinder = new Binder() {
+		public boolean isOn() {
+			return mFlashManager.getPower() == LightPower.ON;
+		}
+	};
 	
 	@Override
 	public void onCreate() {
@@ -56,7 +63,7 @@ public class LightService extends Service {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		return null;
+		return simpleBinder;
 	}
 	
 }
