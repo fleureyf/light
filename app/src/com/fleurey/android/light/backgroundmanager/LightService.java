@@ -4,32 +4,22 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.fleurey.android.light.R;
-import com.fleurey.android.light.flashmanager.FlashControler.LightPower;
 import com.fleurey.android.light.flashmanager.FlashManager;
+import com.fleurey.android.light.flashmanager.FlashManager.LightPower;
 
 public class LightService extends Service {
 
+	public final static String SERVICE_RUNNING = LightService.class.getName() + ".PREF_SERVICE_RUNNING";
+	
 	private static final String ACTION_STOP_REQUEST = LightService.class.getName() + ".ACTION_STOP_REQUEST";
 	private static final int SERVICE_ID = 79290;
 	
-	private FlashManager mFlashManager;
-	
-	private final Binder simpleBinder = new Binder() {
-		public boolean isOn() {
-			return mFlashManager.getPower() == LightPower.ON;
-		}
-	};
-	
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		mFlashManager = new FlashManager(getApplicationContext());
-	}
+	private FlashManager mFlashManager = new FlashManager();
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -38,6 +28,7 @@ public class LightService extends Service {
 		}
 		mFlashManager.setPower(LightPower.ON);
 		startForeground(SERVICE_ID, buildRunningNotification());
+		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, true);
 		return START_NOT_STICKY;
 	}
 	
@@ -46,6 +37,7 @@ public class LightService extends Service {
 		super.onDestroy();
 		mFlashManager.release();
 		stopForeground(true);
+		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, false);
 	}
 
 	private Notification buildRunningNotification() {
@@ -63,7 +55,7 @@ public class LightService extends Service {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		return simpleBinder;
+		return null;
 	}
 	
 }

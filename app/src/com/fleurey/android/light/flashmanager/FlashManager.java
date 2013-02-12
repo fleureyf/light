@@ -5,15 +5,18 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
-public class FlashManager implements FlashControler {
+public class FlashManager {
 
-	private Context mContext;
+	public enum LightPower {
+		OFF, ON;
+	}
+	
 	private Camera camera;
 	private Parameters parameters;
 	private LightPower currentPower;
 	
-	public FlashManager(Context context) {
-		this.mContext = context;
+	public static boolean isFlashAvailable(Context context) {
+		return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 	}
 	
 	public void release() {
@@ -35,7 +38,6 @@ public class FlashManager implements FlashControler {
 		currentPower = LightPower.OFF;
 	}
 	
-	@Override
 	public void setPower(LightPower value) {
 		switch (value) {
 		case ON:
@@ -53,17 +55,11 @@ public class FlashManager implements FlashControler {
 		}
 	}
 
-	@Override
 	public LightPower getPower() {
 		if (currentPower == null) {
 			return LightPower.OFF;
 		}
 		return currentPower;
-	}
-
-	@Override
-	public boolean isFlashAvailable() {
-		return mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 	}
 
 }
