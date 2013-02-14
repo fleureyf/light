@@ -42,13 +42,12 @@ public class MainActivity extends Activity {
 	private void toggleStatus() {
 		if (on) {
 			stopService(new Intent(getApplicationContext(), LightService.class));
-			mImageButton.setBackgroundResource(R.drawable.background_off);
 			on = false;
 		} else {
 			startService(new Intent(getApplicationContext(), LightService.class));
-			mImageButton.setBackgroundResource(R.drawable.background_on);
 			on = true;
 		}
+		updateBackground();
 	}
 	
 	private void updateStatus() {

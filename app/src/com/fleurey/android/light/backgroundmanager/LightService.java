@@ -28,7 +28,7 @@ public class LightService extends Service {
 		}
 		mFlashManager.setPower(LightPower.ON);
 		startForeground(SERVICE_ID, buildRunningNotification());
-		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, true);
+		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, true).commit();
 		return START_NOT_STICKY;
 	}
 	
@@ -37,7 +37,7 @@ public class LightService extends Service {
 		super.onDestroy();
 		mFlashManager.release();
 		stopForeground(true);
-		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, false);
+		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, false).commit();
 	}
 
 	private Notification buildRunningNotification() {
