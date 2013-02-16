@@ -3,6 +3,7 @@
 
     <string name="app_name">Light</string>
 	<string name="btn_desc">Toggle Flash</string>
+	<string name="notification">Touch to power off</string>	
 	<string name="no_flash">Sorry, you have no flash on your device.</string>
 	
 </resources>

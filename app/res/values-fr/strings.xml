@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Light</string>
+	<string name="btn_desc">M/A Flash</string>
+	<string name="notification">Appuyer pour éteindre</string>
+	<string name="no_flash">Désolé, vous n\'avez pas de flash sur votre périphérique.</string>
+	
+</resources>
