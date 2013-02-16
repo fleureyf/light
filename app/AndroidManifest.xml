@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".backgroundmanager.LightService">
+            android:name=".backgroundmanager.LightService"
+            android:exported="false">
         </service>
     </application>
 

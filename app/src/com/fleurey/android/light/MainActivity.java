@@ -1,9 +1,13 @@
 package com.fleurey.android.light;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -17,6 +21,17 @@ public class MainActivity extends Activity {
 	private ImageButton mImageButton;
 	private boolean on = false;
 	private boolean noFlash = false;
+	
+	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	        if(LightService.ACTION_SERVICE_STOPPED.equals(intent.getAction())) {
+	        	Log.d("DEB", "intent");
+	        	mImageButton.setBackgroundResource(R.drawable.img_background_off);
+	        	on = false;
+	        }
+	    }
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +54,15 @@ public class MainActivity extends Activity {
 		super.onResume();
 		updateStatus();
 		updateBackground();
+		registerReceiver(mReceiver, new IntentFilter(LightService.ACTION_SERVICE_STOPPED));
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(mReceiver);
+	}
+	
 	private void toggleStatus() {
 		if (on) {
 			stopService(new Intent(getApplicationContext(), LightService.class));

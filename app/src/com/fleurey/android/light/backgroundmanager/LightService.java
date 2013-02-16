@@ -14,7 +14,8 @@ import com.fleurey.android.light.flashmanager.FlashManager.LightPower;
 
 public class LightService extends Service {
 
-	public final static String SERVICE_RUNNING = LightService.class.getName() + ".PREF_SERVICE_RUNNING";
+	public static final String SERVICE_RUNNING = LightService.class.getName() + ".PREF_SERVICE_RUNNING";
+	public static final String ACTION_SERVICE_STOPPED = LightService.class.getName() + ".ACTION_SERVICE_STOPPED";
 	
 	private static final String ACTION_STOP_REQUEST = LightService.class.getName() + ".ACTION_STOP_REQUEST";
 	private static final int SERVICE_ID = 79290;
@@ -36,8 +37,9 @@ public class LightService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		mFlashManager.release();
-		stopForeground(true);
 		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SERVICE_RUNNING, false).commit();
+		sendBroadcast(new Intent(ACTION_SERVICE_STOPPED));
+		stopForeground(true);
 	}
 
 	private Notification buildRunningNotification() {
