@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.fleurey.android.light.backgroundmanager.LightService;
 import com.fleurey.android.light.flashmanager.FlashManager;
@@ -15,13 +16,14 @@ public class MainActivity extends Activity {
 
 	private ImageButton mImageButton;
 	private boolean on = false;
+	private boolean noFlash = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		if (!FlashManager.isFlashAvailable(getApplicationContext())) {
-			finish();
+			noFlash = true;
 		}
 		mImageButton = (ImageButton) findViewById(R.id.button);
 		mImageButton.setOnClickListener(new OnClickListener() {
@@ -44,6 +46,10 @@ public class MainActivity extends Activity {
 			stopService(new Intent(getApplicationContext(), LightService.class));
 			on = false;
 		} else {
+			if (noFlash) {
+				Toast.makeText(getApplicationContext(), R.string.no_flash, Toast.LENGTH_LONG).show();
+				return;
+			}
 			startService(new Intent(getApplicationContext(), LightService.class));
 			on = true;
 		}
@@ -56,9 +62,9 @@ public class MainActivity extends Activity {
 	
 	private void updateBackground() {
 		if (on) {
-			mImageButton.setBackgroundResource(R.drawable.background_on);
+			mImageButton.setBackgroundResource(R.drawable.img_background_on);
 		} else {
-			mImageButton.setBackgroundResource(R.drawable.background_off);
+			mImageButton.setBackgroundResource(R.drawable.img_background_off);
 		}
 	}
 }

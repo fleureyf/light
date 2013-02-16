@@ -47,7 +47,7 @@ public class LightService extends Service {
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
 		builder.setContentTitle("Light");
 		builder.setContentText("Touch to power off");
-		builder.setSmallIcon(R.drawable.ic_service_running);
+		builder.setSmallIcon(R.drawable.ic_notification);
 		builder.setContentIntent(pIntent);
 		Notification runningNotification = builder.build();
 		return runningNotification;

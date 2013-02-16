@@ -4,7 +4,8 @@
     android:id="@+id/button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_off"
+    android:background="@drawable/img_background_off"
     android:layout_gravity="center"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity" 
+    android:contentDescription="@string/btn_desc">
 </ImageButton>
