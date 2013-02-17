@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -29,7 +28,6 @@ public class MainActivity extends Activity {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
 	        if(LightService.ACTION_SERVICE_STOPPED.equals(intent.getAction())) {
-	        	Log.d("DEB", "intent");
 	        	mImageButton.setBackgroundResource(R.drawable.img_background_off);
 	        	on = false;
 	        }
